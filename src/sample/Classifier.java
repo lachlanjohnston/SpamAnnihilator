@@ -99,7 +99,7 @@ public class Classifier implements Runnable {
 
             listener.print("Ham training files loaded: " + hamFiles
                             + "\nSpam files loaded: " + spamFiles
-                            + "\nClassifying!\n");
+                            + "\nBeginning classification!\n");
 
             for (File file : filesSpam) {
                 Scanner s = new Scanner(file);
@@ -233,7 +233,7 @@ public class Classifier implements Runnable {
 
             percentageCorrect = (double) isHam / filesTest.size();
             listener.print("Correct: " + isHam + "\nIncorrect: " +
-                    isHam + "\nPercentage: " + percentageCorrect
+                    isSpam + "\nPercentage: " + percentageCorrect
                     + "\nTotal percentage classified correctly: " + (double) correct/(totalFiles));
 
 
