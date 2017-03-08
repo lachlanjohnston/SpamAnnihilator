@@ -12,7 +12,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Created by lachlan on 06/03/17.
+ * Created by Lachlan Johnston
+ *
+ * This class implements a naive bayesian classifier, using the bag of words model
+ * to classify emails as either legitimate (ham), or spam emails.
  */
 public class Classifier implements Runnable {
 
@@ -46,6 +49,9 @@ public class Classifier implements Runnable {
         classify();
     }
 
+    /**
+     * This method preforms the classification of emails.
+     */
     private void classify() {
         try {
             listener.print("Starting Classifier!\n");

@@ -1,0 +1,11 @@
+Spam Annihilator
+Assignment #1
+
+USAGE: Upon starting the program, select a valid directory matching this structure:
+
+/train/ham/ -> contains ham emails for training
+/train/spam/
+/test/ham/
+/test/spam/
+
+The classifier will then preform the classification and then output the relevant data.

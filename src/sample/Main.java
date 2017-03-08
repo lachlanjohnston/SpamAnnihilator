@@ -17,7 +17,12 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-// Naive bayesian classifier
+/**
+ * Created by Lachlan Johnston
+ *
+ * This class implements the user interface for the classifier. The user will select a directory and the
+ * program will produce a classification of all of the emails in the directory
+ */
 
 public class Main extends Application {
 
