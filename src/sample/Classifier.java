@@ -152,6 +152,8 @@ public class Classifier implements Runnable {
             globalSpamMap.clear();
             globalHamMap.clear();
 
+            listener.print("Classifying spam!\n");
+
             List<File> filesTest = Files.walk(Paths.get(dir + "/test/spam"))
                     .filter(Files::isRegularFile)
                     .map(Path::toFile)
@@ -159,6 +161,7 @@ public class Classifier implements Runnable {
 
             int isSpam = 0;
             int isHam = 0;
+            int totalFiles = filesTest.size();
 
             for (File file : filesTest) {
                 Scanner s = new Scanner(file);
@@ -184,9 +187,51 @@ public class Classifier implements Runnable {
 
             double percentageCorrect = (double) isSpam / filesTest.size();
             listener.print("Correct: " + isSpam + "\nIncorrect: " +
-                    isHam + "\nPercentage: " + percentageCorrect);
+                    isHam + "\nPercentage: " + percentageCorrect + "\n");
 
-            // System.out.println(probs.get("help"));
+            listener.print("Classifying ham!\n");
+
+            filesTest = Files.walk(Paths.get(dir + "/test/ham"))
+                    .filter(Files::isRegularFile)
+                    .map(Path::toFile)
+                    .collect(Collectors.toList());
+
+            int correct = isSpam;
+            isSpam = 0;
+            isHam = 0;
+            totalFiles += filesTest.size();
+
+            for (File file : filesTest) {
+                Scanner s = new Scanner(file);
+                double eta = 0f;
+
+                while(s.hasNext()){
+                    String word = s.next();
+                    word.toLowerCase();
+
+                    if(probs.containsKey(word)) {
+                        double prob = (double) probs.get(word);
+                        if (prob > 0 && prob < 1)
+                            eta += Math.log(1d - prob) - Math.log(prob);
+                    }
+                }
+
+                double probSpam = 1d / (1d + Math.pow(Math.E, eta));
+                emails.add(new Email(file.getName(), probSpam));
+                // System.out.println(file.getName() + " " + probSpam);
+                if (probSpam < .5) isHam++;
+                else isSpam++;
+            }
+
+            correct += isHam;
+
+            percentageCorrect = (double) isHam / filesTest.size();
+            listener.print("Correct: " + isHam + "\nIncorrect: " +
+                    isHam + "\nPercentage: " + percentageCorrect
+                    + "\nTotal percentage classified correctly: " + (double) correct/(totalFiles));
+
+
+
             listener.onCompleted();
 
         } catch(Exception e) {
