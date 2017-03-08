@@ -1,6 +1,16 @@
 Spam Annihilator
 Assignment #1
 
+COMPILATION: This project can be added directly into Intellij and compiled! Just checkout the repository
+using the built in project creation tool.
+
+If not using Intellij use the following commands.
+
+cd src/sample
+javac *.java
+cd ..
+java sample.Main
+
 USAGE: Upon starting the program, select a valid directory matching this structure:
 
 /train/ham/ -> contains ham emails for training
